@@ -1,0 +1,1194 @@
+/* ==========================================================================
+   GRIDLY / BENTO PORTFOLIO - DESIGN SYSTEM & STYLES
+   Exact Replica of Gridly Elementor Kit for Ankit Dahal
+   ========================================================================== */
+
+/* --- Google Fonts Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Caveat:wght@600&display=swap');
+
+/* --- Root Design Tokens --- */
+:root {
+  --bg-main: #0f0f0f;
+  --bg-card: #181818;
+  --bg-card-inner: #121212;
+  --bg-card-hover: #1c1c1c;
+  --bg-button: #2a2a2a;
+  --bg-button-hover: #ffffff;
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.22);
+  --border-inner: rgba(255, 255, 255, 0.05);
+
+  --text-primary: #ffffff;
+  --text-secondary: #bcbcbc;
+  --text-muted: rgba(188, 188, 188, 0.6);
+  --text-dim: #9f9f9f;
+  
+  --accent-blue: #3b82f6;
+  --accent-blue-light: #5ab5e2;
+  --accent-gradient: linear-gradient(90deg, #3c58e3 -15%, #c2ebff 58%, #5ab5e2 97%);
+  --card-gradient: linear-gradient(120deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --card-glow: 0 15px 35px -10px rgba(0, 0, 0, 0.6);
+
+  --radius-card: 30px;
+  --radius-inner: 22px;
+  --radius-pill: 9999px;
+
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-signature: 'Caveat', cursive, sans-serif;
+}
+
+/* --- Base Reset & Global Styles --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Subtle background ambient glow */
+body::before {
+  content: '';
+  position: fixed;
+  top: -100px;
+  right: -100px;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(60, 88, 227, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -100px;
+  left: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(90, 181, 226, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* --- Layout Container --- */
+.container {
+  max-width: 1160px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   HEADER / NAVBAR
+   ========================================================================== */
+.site-header {
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(15, 15, 15, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.logo span {
+  color: var(--accent-blue-light);
+}
+
+.logo-tag {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-left: 10px;
+  padding: 3px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Nav Menu */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dim);
+  position: relative;
+  padding: 6px 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+}
+
+/* Header Action Button */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-talk {
+  background: var(--bg-button);
+  color: var(--text-primary);
+  padding: 10px 24px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--border-subtle);
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn-talk:hover {
+  background: var(--bg-button-hover);
+  color: var(--bg-main);
+  border-color: var(--bg-button-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+}
+
+/* Mobile Menu Toggle */
+.mobile-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-button);
+  border: 1px solid var(--border-subtle);
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+}
+
+.mobile-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ==========================================================================
+   BENTO GRID SYSTEM
+   ========================================================================== */
+.bento-section {
+  padding: 24px 0 60px 0;
+  width: 100%;
+}
+
+.bento-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Bento Card Base */
+.bento-card {
+  background-color: var(--bg-card);
+  background-image: var(--card-gradient);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  position: relative;
+  box-shadow: var(--card-glow);
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  overflow: hidden;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.bento-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.85);
+}
+
+/* Bottom Right Action Arrow Button */
+.card-arrow {
+  position: absolute;
+  bottom: 22px;
+  right: 22px;
+  width: 44px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.25;
+  transition: var(--transition-smooth);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.card-arrow svg {
+  width: 44px;
+  height: 40px;
+  fill: none;
+}
+
+.bento-card:hover .card-arrow {
+  opacity: 1;
+  transform: translate(2px, 2px) scale(1.05);
+}
+
+/* Card Header Meta Labels */
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.card-subtitle {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   ROW 1: HERO & CREDENTIALS / SHOWCASE (TOP 3 BOXES)
+   ========================================================================== */
+.bento-row-1 {
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) minmax(0, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  align-items: stretch;
+}
+
+/* Hero Bento Card */
+.hero-card {
+  padding: 38px 36px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  min-height: 310px;
+  min-width: 0;
+  width: 100%;
+}
+
+.hero-avatar-box {
+  width: 195px;
+  height: 195px;
+  min-width: 195px;
+  max-width: 195px;
+  flex-shrink: 0;
+  border-radius: 30px 0 30px 0;
+  background: var(--accent-gradient);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 35px -5px rgba(60, 88, 227, 0.35);
+}
+
+.hero-avatar-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.hero-card:hover .hero-avatar-box img {
+  transform: scale(1.05);
+}
+
+.hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.hero-role {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+}
+
+.hero-name {
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-primary);
+  letter-spacing: -0.8px;
+  margin: 3px 0 6px 0;
+}
+
+.hero-desc {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+/* Right Column of Row 1 */
+.bento-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Marquee / Ticker Box - Uses position absolute to eliminate intrinsic width blowout */
+.marquee-card {
+  height: 52px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.marquee-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: marqueeLoop 22s linear infinite;
+  will-change: transform;
+}
+
+.marquee-card:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+.marquee-text {
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 16px;
+}
+
+.marquee-text b {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.marquee-separator {
+  color: var(--accent-blue);
+  font-weight: 800;
+}
+
+@keyframes marqueeLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Row of Two Cards under Marquee (Credentials & Projects) */
+.row-1-subgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.credentials-card,
+.projects-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  min-width: 0;
+}
+
+/* Signature Artwork */
+.signature-art {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signature-svg {
+  width: 100%;
+  max-width: 175px;
+  height: auto;
+}
+
+/* Laptop Mock Artwork */
+.laptop-art {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.laptop-art::before {
+  content: 'MY WORKS';
+  position: absolute;
+  top: 6px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.laptop-svg {
+  width: 100%;
+  max-width: 160px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   ROW 2: BLOG / SERVICES / PROFILES
+   ========================================================================== */
+.bento-row-2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  align-items: stretch;
+}
+
+.blog-card,
+.services-card,
+.profiles-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  min-width: 0;
+}
+
+/* Ribbon Artwork in Blog Card */
+.gfonts-art {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gfonts-svg {
+  width: 100px;
+  height: 80px;
+}
+
+/* 4 Feature Badges in Services Card */
+.services-icons-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 16px;
+  padding: 16px 8px;
+}
+
+.service-icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--bg-card-inner);
+  border: 1px solid var(--border-inner);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: var(--transition-smooth);
+}
+
+.service-icon-circle svg {
+  width: 26px;
+  height: 26px;
+}
+
+.services-card:hover .service-icon-circle {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
+  background: #1c1c1c;
+}
+
+.service-icon-circle:hover {
+  transform: translateY(-4px) scale(1.08) !important;
+  color: var(--accent-blue-light) !important;
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.35);
+}
+
+/* Social Buttons in Profiles Card */
+.profiles-social-box {
+  background: var(--bg-card-inner);
+  border: 1px solid var(--border-inner);
+  border-radius: var(--radius-inner);
+  padding: 18px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.social-circle-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg-button);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: var(--transition-smooth);
+}
+
+.social-circle-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.social-circle-btn:hover {
+  background: #ffffff;
+  color: #0f0f0f;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 18px rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================================
+   ROW 3: STATS & CALL TO ACTION
+   ========================================================================== */
+.bento-row-3 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  align-items: stretch;
+}
+
+/* Stats Card */
+.stats-card {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.stat-item {
+  background: var(--bg-card-inner);
+  border: 1px solid var(--border-inner);
+  border-radius: var(--radius-inner);
+  padding: 32px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.bento-card:hover .stat-item {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.stat-item:hover {
+  background: #1c1c1c;
+  transform: translateY(-2px);
+}
+
+.stat-number {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* CTA ("Let's work together.") Card */
+.cta-card {
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  min-width: 0;
+}
+
+.cta-top {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cta-star-wrap {
+  width: 32px;
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cta-star-string {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.cta-star-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--text-dim);
+  opacity: 0.8;
+}
+
+.cta-heading {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-primary);
+  letter-spacing: -1px;
+  margin-top: 4px;
+}
+
+.cta-accent {
+  color: #4383ff;
+  background: linear-gradient(90deg, #3c58e3 0%, #5ab5e2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.site-footer {
+  padding: 48px 0 40px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 20px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+}
+
+.footer-logo {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.footer-logo span {
+  color: var(--accent-blue-light);
+}
+
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.footer-link {
+  font-size: 14px;
+  color: var(--text-dim);
+  transition: var(--transition-smooth);
+}
+
+.footer-link:hover {
+  color: var(--text-primary);
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.copyright {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.copyright span {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Clean Azure Challenge Badge (No fake counter) */
+.azure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(10, 88, 202, 0.08);
+  border: 1px solid rgba(10, 88, 202, 0.22);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  color: #79c0ff;
+  margin-top: 4px;
+}
+
+.azure-badge svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ==========================================================================
+   INTERACTIVE MODAL DIALOGS
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-container {
+  background: #151515;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.95);
+  transform: scale(0.94) translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 40px;
+}
+
+.modal-backdrop.is-open .modal-container {
+  transform: scale(1) translateY(0);
+}
+
+/* Custom Scrollbar for Modal */
+.modal-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 20px;
+  transition: var(--transition-smooth);
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.modal-header {
+  margin-bottom: 24px;
+}
+
+.modal-subtitle {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-blue-light);
+  margin-bottom: 6px;
+}
+
+.modal-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.modal-body {
+  color: var(--text-secondary);
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+/* Timeline / Item Blocks in Modal */
+.modal-timeline-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 18px;
+  transition: var(--transition-smooth);
+}
+
+.modal-timeline-item:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.timeline-role {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.timeline-company {
+  font-size: 13.5px;
+  color: var(--accent-blue-light);
+  font-weight: 500;
+}
+
+.timeline-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.timeline-bullets {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.timeline-bullets li {
+  margin-bottom: 6px;
+  color: var(--text-dim);
+}
+
+/* Skill Tags in Modal */
+.skills-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.skill-tag {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-tag.featured {
+  background: rgba(60, 88, 227, 0.15);
+  border-color: rgba(60, 88, 227, 0.4);
+  color: #93c5fd;
+}
+
+/* Contact Details in Modal */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.contact-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: var(--transition-smooth);
+}
+
+.contact-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.contact-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.8px;
+}
+
+.contact-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  word-break: break-all;
+}
+
+.btn-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--accent-blue-light);
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.btn-copy:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 880px) {
+  .site-header {
+    padding: 18px 0;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 76px;
+    left: 0;
+    right: 0;
+    background: #141414;
+    border-bottom: 1px solid var(--border-subtle);
+    flex-direction: column;
+    padding: 24px;
+    gap: 20px;
+    display: none;
+  }
+
+  .main-nav.is-active {
+    display: flex;
+  }
+
+  .header-actions .btn-talk {
+    display: none;
+  }
+
+  /* Bento Stacking for Tablet/Mobile */
+  .bento-row-1 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card {
+    padding: 34px 28px;
+  }
+
+  .bento-row-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-row-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 32px 20px;
+  }
+
+  .hero-info {
+    padding-right: 0;
+    align-items: center;
+  }
+
+  .hero-avatar-box {
+    width: 165px;
+    height: 165px;
+    min-width: 165px;
+    max-width: 165px;
+  }
+
+  .row-1-subgrid {
+    grid-template-columns: 1fr;
+  }
+
+  .services-icons-row {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cta-card {
+    padding: 32px 24px;
+  }
+
+  .cta-heading {
+    font-size: 32px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-container {
+    padding: 28px 20px;
+  }
+}

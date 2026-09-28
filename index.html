@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ankit Dahal | Aspiring Cloud &amp; Azure Solutions Architect</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Personal portfolio and Cloud Resume of Ankit Dahal - Aspiring Cloud / Azure Solutions Architect and Full Stack Developer based in Kathmandu, Nepal.">
+  <meta name="keywords" content="Ankit Dahal, Cloud Resume Challenge, Azure Solutions Architect, Full Stack Developer, Kathmandu Nepal, Azure Static Web Apps, React">
+  <meta name="author" content="Ankit Dahal">
+  
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ankit Dahal · Cloud &amp; Azure Solutions Architect">
+  <meta property="og:description" content="Personal Bento Grid Portfolio &amp; Resume built for the Cloud Resume Challenge on Microsoft Azure.">
+  <meta property="og:image" content="PP.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="#" class="logo" id="logoLink">
+        Ankit<span>.</span>
+        <span class="logo-tag">Portfolio</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="main-nav" id="mainNav">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link" data-modal="about">About</a>
+        <a href="#works" class="nav-link" data-modal="projects">Works</a>
+        <a href="#contact" class="nav-link" data-modal="contact">Contact</a>
+      </nav>
+
+      <!-- Header Action & Mobile Hamburger -->
+      <div class="header-actions">
+        <button class="btn-talk" data-modal="contact" id="talkBtn">Let's talk</button>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN CONTENT: BENTO GRID
+       ========================================================================== -->
+  <main class="bento-section" id="home">
+    <div class="container">
+      <div class="bento-grid">
+
+        <!-- ==================== ROW 1 ==================== -->
+        <div class="bento-row-1">
+
+          <!-- Bento Card 1: HERO / PROFILE -->
+          <article class="bento-card hero-card" data-modal="about" title="Click to view full bio">
+            <div class="hero-avatar-box">
+              <img src="PP.jpg" alt="Ankit Dahal - Profile" loading="eager">
+            </div>
+            <div class="hero-info">
+              <span class="hero-role">Aspiring Cloud Architect</span>
+              <h1 class="hero-name">Ankit<br>Dahal.</h1>
+              <p class="hero-desc">
+                Aspiring Cloud &amp; Azure Solutions Architect &amp; Full Stack Developer based in Kathmandu, Nepal.
+              </p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 42" fill="none">
+                <path d="M30.9224 21.2014C25.1291 21.2014 24.618 24.7796 24.618 27.3354C24.618 21.5421 21.5509 21.2014 17.9727 21.2014C24.618 21.2014 24.618 17.2824 24.618 14.8969C24.618 20.3494 27.8554 21.2014 30.9224 21.2014Z" fill="#F4F4F4" stroke="#F4F4F4"/>
+                <rect y="21.6981" width="1" height="18" transform="rotate(-90 0 21.6981)" fill="#F4F4F4"/>
+                <path d="M9.93715 16.8555C10.9514 13.0701 13.2829 9.77074 16.5123 7.55063C19.7417 5.33052 23.6571 4.33531 27.5547 4.74394C31.4522 5.15258 35.0762 6.93825 37.7749 9.77989C40.4736 12.6215 42.07 16.3327 42.2771 20.2461C42.4842 24.1596 41.2884 28.0185 38.9047 31.1291C36.5211 34.2398 33.1059 36.398 29.2732 37.2157C25.4406 38.0335 21.4419 37.4571 17.9962 35.5903C14.5505 33.7234 11.8839 30.6886 10.4757 27.0314" stroke="#F4F4F4" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </article>
+
+          <!-- Row 1 Right Column: Ticker + (Credentials & Projects) -->
+          <div class="bento-col-right">
+            
+            <!-- Marquee / Ticker Box -->
+            <div class="bento-card marquee-card">
+              <div class="marquee-content">
+                <span class="marquee-text">
+                  LATEST WORK AND <b>FEATURED</b> <span class="marquee-separator">·</span>
+                  CLOUD RESUME CHALLENGE <b>AZURE</b> <span class="marquee-separator">·</span>
+                  SOLUTIONS ARCHITECT <b>PORTFOLIO</b> <span class="marquee-separator">·</span>
+                  FULL STACK <b>DEVELOPER</b> <span class="marquee-separator">·</span>
+                </span>
+                <!-- Duplicate for seamless infinite loop -->
+                <span class="marquee-text" aria-hidden="true">
+                  LATEST WORK AND <b>FEATURED</b> <span class="marquee-separator">·</span>
+                  CLOUD RESUME CHALLENGE <b>AZURE</b> <span class="marquee-separator">·</span>
+                  SOLUTIONS ARCHITECT <b>PORTFOLIO</b> <span class="marquee-separator">·</span>
+                  FULL STACK <b>DEVELOPER</b> <span class="marquee-separator">·</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Two Sub-cards: Credentials & Projects -->
+            <div class="row-1-subgrid">
+
+              <!-- Card 2: CREDENTIALS -->
+              <article class="bento-card credentials-card" data-modal="credentials" title="Click to view credentials & experience">
+                <div class="signature-art">
+                  <!-- Stylized Signature Graphic -->
+                  <svg class="signature-svg" viewBox="0 0 220 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 70C35 45 55 20 75 25C95 30 50 85 70 85C85 85 105 40 120 50C135 60 125 75 145 70C165 65 190 35 205 30M95 55C110 55 125 54 140 54" stroke="#f4f4f4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+                    <path d="M125 40L145 35M150 48L170 42" stroke="#f4f4f4" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                  </svg>
+                </div>
+                <div class="card-meta">
+                  <span class="card-subtitle">More about me</span>
+                  <h2 class="card-title">Credentials</h2>
+                </div>
+                <div class="card-arrow" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 42" fill="none">
+                    <path d="M30.9224 21.2014C25.1291 21.2014 24.618 24.7796 24.618 27.3354C24.618 21.5421 21.5509 21.2014 17.9727 21.2014C24.618 21.2014 24.618 17.2824 24.618 14.8969C24.618 20.3494 27.8554 21.2014 30.9224 21.2014Z" fill="#F4F4F4" stroke="#F4F4F4"/>
+                    <rect y="21.6981" width="1" height="18" transform="rotate(-90 0 21.6981)" fill="#F4F4F4"/>
+                    <path d="M9.93715 16.8555C10.9514 13.0701 13.2829 9.77074 16.5123 7.55063C19.7417 5.33052 23.6571 4.33531 27.5547 4.74394C31.4522 5.15258 35.0762 6.93825 37.7749 9.77989C40.4736 12.6215 42.07 16.3327 42.2771 20.2461C42.4842 24.1596 41.2884 28.0185 38.9047 31.1291C36.5211 34.2398 33.1059 36.398 29.2732 37.2157C25.4406 38.0335 21.4419 37.4571 17.9962 35.5903C14.5505 33.7234 11.8839 30.6886 10.4757 27.0314" stroke="#F4F4F4" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </article>
+
+              <!-- Card 3: PROJECTS -->
+              <article class="bento-card projects-card" data-modal="projects" title="Click to view featured projects">
+                <div class="laptop-art">
+                  <!-- Laptop Mockup Graphic displaying Cloud Resume Challenge -->
+                  <svg class="laptop-svg" viewBox="0 0 160 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="25" y="10" width="110" height="66" rx="6" fill="#1e1e1e" stroke="#404040" stroke-width="1.5"/>
+                    <rect x="30" y="15" width="100" height="56" rx="3" fill="#0d1117"/>
+                    <!-- Screen content simulation -->
+                    <circle cx="37" cy="22" r="2" fill="#ff5f56"/>
+                    <circle cx="43" cy="22" r="2" fill="#ffbd2e"/>
+                    <circle cx="49" cy="22" r="2" fill="#27c93f"/>
+                    <text x="80" y="38" font-family="'Inter', sans-serif" font-size="7.5" font-weight="700" fill="#ffffff" text-anchor="middle">CLOUD RESUME</text>
+                    <rect x="52" y="44" width="56" height="5" rx="2.5" fill="#3c58e3"/>
+                    <rect x="42" y="53" width="76" height="3" rx="1.5" fill="#30363d"/>
+                    <rect x="50" y="59" width="60" height="3" rx="1.5" fill="#30363d"/>
+                    <!-- Laptop Base -->
+                    <path d="M10 77C10 76.4477 10.4477 76 11 76H149C149.552 76 150 76.4477 150 77V79C150 81.2091 148.209 83 146 83H14C11.7909 83 10 81.2091 10 79V77Z" fill="#333333"/>
+                    <path d="M68 76H92V78C92 78.5523 91.5523 79 91 79H69C68.4477 79 68 78.5523 68 78V76Z" fill="#4d4d4d"/>
+                  </svg>
+                </div>
+                <div class="card-meta">
+                  <span class="card-subtitle">Showcase</span>
+                  <h2 class="card-title">Projects</h2>
+                </div>
+                <div class="card-arrow" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 42" fill="none">
+                    <path d="M30.9224 21.2014C25.1291 21.2014 24.618 24.7796 24.618 27.3354C24.618 21.5421 21.5509 21.2014 17.9727 21.2014C24.618 21.2014 24.618 17.2824 24.618 14.8969C24.618 20.3494 27.8554 21.2014 30.9224 21.2014Z" fill="#F4F4F4" stroke="#F4F4F4"/>
+                    <rect y="21.6981" width="1" height="18" transform="rotate(-90 0 21.6981)" fill="#F4F4F4"/>
+                    <path d="M9.93715 16.8555C10.9514 13.0701 13.2829 9.77074 16.5123 7.55063C19.7417 5.33052 23.6571 4.33531 27.5547 4.74394C31.4522 5.15258 35.0762 6.93825 37.7749 9.77989C40.4736 12.6215 42.07 16.3327 42.2771 20.2461C42.4842 24.1596 41.2884 28.0185 38.9047 31.1291C36.5211 34.2398 33.1059 36.398 29.2732 37.2157C25.4406 38.0335 21.4419 37.4571 17.9962 35.5903C14.5505 33.7234 11.8839 30.6886 10.4757 27.0314" stroke="#F4F4F4" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </article>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== ROW 2 ==================== -->
+        <div class="bento-row-2">
+
+          <!-- Card 4: BLOG / TECH STACK (GFONTS STYLE ART) -->
+          <article class="bento-card blog-card" data-modal="techstack" title="Click to view skills and technical stack">
+            <div class="gfonts-art">
+              <!-- Replicated colorful modern ribbon art from Gridly GFonts card -->
+              <svg class="gfonts-svg" viewBox="0 0 100 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Red pill -->
+                <circle cx="28" cy="22" r="14" fill="#FF4757"/>
+                <!-- Yellow/Orange angled diagonal -->
+                <path d="M22 66L58 22C63 17 71 17 76 22L78 24C83 29 83 37 78 42L42 86H22V66Z" fill="#FFA502"/>
+                <!-- Blue vertical pill -->
+                <path d="M56 42C56 31 65 22 76 22C87 22 96 31 96 42V66C96 77 87 86 76 86C65 86 56 77 56 66V42Z" fill="#1E90FF"/>
+              </svg>
+            </div>
+            <div class="card-meta">
+              <span class="card-subtitle">Blog</span>
+              <h2 class="card-title">GFonts</h2>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 42" fill="none">
+                <path d="M30.9224 21.2014C25.1291 21.2014 24.618 24.7796 24.618 27.3354C24.618 21.5421 21.5509 21.2014 17.9727 21.2014C24.618 21.2014 24.618 17.2824 24.618 14.8969C24.618 20.3494 27.8554 21.2014 30.9224 21.2014Z" fill="#F4F4F4" stroke="#F4F4F4"/>
+                <rect y="21.6981" width="1" height="18" transform="rotate(-90 0 21.6981)" fill="#F4F4F4"/>
+                <path d="M9.93715 16.8555C10.9514 13.0701 13.2829 9.77074 16.5123 7.55063C19.7417 5.33052 23.6571 4.33531 27.5547 4.74394C31.4522 5.15258 35.0762 6.93825 37.7749 9.77989C40.4736 12.6215 42.07 16.3327 42.2771 20.2461C42.4842 24.1596 41.2884 28.0185 38.9047 31.1291C36.5211 34.2398 33.1059 36.398 29.2732 37.2157C25.4406 38.0335 21.4419 37.4571 17.9962 35.5903C14.5505 33.7234 11.8839 30.6886 10.4757 27.0314" stroke="#F4F4F4" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </article>
+
+          <!-- Card 5: SERVICES OFFERING -->
+          <article class="bento-card services-card" data-modal="services" title="Click to view services & specialization">
+            <div class="services-icons-row">
+              <!-- Icon 1: Camera / Vision -->
+              <div class="service-icon-circle" title="Visual & Web Design">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M2 19V9C2 7.89543 2.89543 7 4 7H4.5C5.12951 7 5.72229 6.70361 6.1 6.2L8.32 3.24C8.43331 3.08892 8.61115 3 8.8 3H15.2C15.3889 3 15.5667 3.08892 15.68 3.24L17.9 6.2C18.2777 6.70361 18.8705 7 19.5 7H20C21.1046 7 22 7.89543 22 9V19C22 20.1046 21.1046 21 20 21H4C2.89543 21 2 20.1046 2 19Z" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+              </div>
+              <!-- Icon 2: Pencil / 'A' Typography -->
+              <div class="service-icon-circle" title="Creative Development">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M8 21.1679V14L12 7L16 14V21.1679" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 14H16" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <!-- Icon 3: Overlapping Circles / Palette -->
+              <div class="service-icon-circle" title="System Architecture">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="8.5" r="6"/>
+                  <circle cx="16" cy="15.5" r="6"/>
+                  <circle cx="8" cy="15.5" r="6"/>
+                </svg>
+              </div>
+              <!-- Icon 4: Code Brackets / Engineering -->
+              <div class="service-icon-circle" title="Full Stack Engineering">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M18 18V21.4C18 21.7314 17.7314 22 17.4 22H6.6C6.26863 22 6 21.7314 6 21.4V18" stroke-linecap="round"/>
+                  <path d="M18 6V2.6C18 2.26863 17.7314 2 17.4 2H6.6C6.26863 2 6 2.26863 6 2.6V6" stroke-linecap="round"/>
+                  <path d="M15.5 8.5L19 12L15.5 15.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8.5 8.5L5 12L8.5 15.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-meta">
+              <span class="card-subtitle">Specialization</span>
+              <h2 class="card-title">Services Offering</h2>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 42" fill="none">
+                <path d="M30.9224 21.2014C25.1291 21.2014 24.618 24.7796 24.618 27.3354C24.618 21.5421 21.5509 21.2014 17.9727 21.2014C24.618 21.2014 24.618 17.2824 24.618 14.8969C24.618 20.3494 27.8554 21.2014 30.9224 21.2014Z" fill="#F4F4F4" stroke="#F4F4F4"/>
+                <rect y="21.6981" width="1" height="18" transform="rotate(-90 0 21.6981)" fill="#F4F4F4"/>
+                <path d="M9.93715 16.8555C10.9514 13.0701 13.2829 9.77074 16.5123 7.55063C19.7417 5.33052 23.6571 4.33531 27.5547 4.74394C31.4522 5.15258 35.0762 6.93825 37.7749 9.77989C40.4736 12.6215 42.07 16.3327 42.2771 20.2461C42.4842 24.1596 41.2884 28.0185 38.9047 31.1291C36.5211 34.2398 33.1059 36.398 29.2732 37.2157C25.4406 38.0335 21.4419 37.4571 17.9962 35.5903C14.5505 33.7234 11.8839 30.6886 10.4757 27.0314" stroke="#F4F4F4" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </article>
+
+          <!-- Card 6: PROFILES -->
+          <article class="bento-card profiles-card" data-modal="contact" title="Click to view socials & profiles">
+            <div class="profiles-social-box">
+              <!-- LinkedIn Profile Button -->
+              <a href="https://www.linkedin.com/in/ankit-dahal28/" target="_blank" rel="noopener noreferrer" class="social-circle-btn" title="LinkedIn Profile">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+              </a>
+              <!-- GitHub Profile Button -->
+              <a href="https://github.com/a-josuke?tab=repositories" target="_blank" rel="noopener noreferrer" class="social-circle-btn" title="GitHub Profile">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+              </a>
+            </div>
+            <div class="card-meta">
+              <span class="card-subtitle">Stay with me</span>
+              <h2 class="card-title">Profiles</h2>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 42" fill="none">
+                <path d="M30.9224 21.2014C25.1291 21.2014 24.618 24.7796 24.618 27.3354C24.618 21.5421 21.5509 21.2014 17.9727 21.2014C24.618 21.2014 24.618 17.2824 24.618 14.8969C24.618 20.3494 27.8554 21.2014 30.9224 21.2014Z" fill="#F4F4F4" stroke="#F4F4F4"/>
+                <rect y="21.6981" width="1" height="18" transform="rotate(-90 0 21.6981)" fill="#F4F4F4"/>
+                <path d="M9.93715 16.8555C10.9514 13.0701 13.2829 9.77074 16.5123 7.55063C19.7417 5.33052 23.6571 4.33531 27.5547 4.74394C31.4522 5.15258 35.0762 6.93825 37.7749 9.77989C40.4736 12.6215 42.07 16.3327 42.2771 20.2461C42.4842 24.1596 41.2884 28.0185 38.9047 31.1291C36.5211 34.2398 33.1059 36.398 29.2732 37.2157C25.4406 38.0335 21.4419 37.4571 17.9962 35.5903C14.5505 33.7234 11.8839 30.6886 10.4757 27.0314" stroke="#F4F4F4" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- ==================== ROW 3 ==================== -->
+        <div class="bento-row-3">
+
+          <!-- Card 7: STATS COUNTERS -->
+          <article class="bento-card stats-card" data-modal="credentials" title="Click to view credentials & experience">
+            <div class="stats-grid">
+              
+              <!-- Stat 1 -->
+              <div class="stat-item">
+                <span class="stat-number">02+</span>
+                <span class="stat-label">Years<br>Experience</span>
+              </div>
+
+              <!-- Stat 2 -->
+              <div class="stat-item">
+                <span class="stat-number">+50</span>
+                <span class="stat-label">Users / Staff<br>Impacted</span>
+              </div>
+
+              <!-- Stat 3 -->
+              <div class="stat-item">
+                <span class="stat-number">+10</span>
+                <span class="stat-label">Cloud &amp; Web<br>Projects</span>
+              </div>
+
+            </div>
+          </article>
+
+          <!-- Card 8: CALL TO ACTION ("Let's work together.") -->
+          <article class="bento-card cta-card" data-modal="contact" title="Click to start a conversation">
+            <div class="cta-top">
+              <!-- Hanging Star with thin line -->
+              <div class="cta-star-wrap">
+                <div class="cta-star-string"></div>
+                <svg class="cta-star-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+                </svg>
+              </div>
+              <h2 class="cta-heading">
+                Let's <br>work <span class="cta-accent">together.</span>
+              </h2>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 42" fill="none">
+                <path d="M30.9224 21.2014C25.1291 21.2014 24.618 24.7796 24.618 27.3354C24.618 21.5421 21.5509 21.2014 17.9727 21.2014C24.618 21.2014 24.618 17.2824 24.618 14.8969C24.618 20.3494 27.8554 21.2014 30.9224 21.2014Z" fill="#F4F4F4" stroke="#F4F4F4"/>
+                <rect y="21.6981" width="1" height="18" transform="rotate(-90 0 21.6981)" fill="#F4F4F4"/>
+                <path d="M9.93715 16.8555C10.9514 13.0701 13.2829 9.77074 16.5123 7.55063C19.7417 5.33052 23.6571 4.33531 27.5547 4.74394C31.4522 5.15258 35.0762 6.93825 37.7749 9.77989C40.4736 12.6215 42.07 16.3327 42.2771 20.2461C42.4842 24.1596 41.2884 28.0185 38.9047 31.1291C36.5211 34.2398 33.1059 36.398 29.2732 37.2157C25.4406 38.0335 21.4419 37.4571 17.9962 35.5903C14.5505 33.7234 11.8839 30.6886 10.4757 27.0314" stroke="#F4F4F4" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <a href="#" class="footer-logo">
+        Ankit<span>.</span>
+      </a>
+
+      <nav class="footer-nav">
+        <a href="#home" class="footer-link">Home</a>
+        <a href="#about" class="footer-link" data-modal="about">About</a>
+        <a href="#works" class="footer-link" data-modal="projects">Works</a>
+        <a href="#contact" class="footer-link" data-modal="contact">Contact</a>
+      </nav>
+
+      <div class="footer-bottom">
+        <p class="copyright">
+          © All rights reserved by <span>Ankit Dahal</span> · Built on Microsoft Azure
+        </p>
+
+        <!-- Cloud Resume Challenge Azure Badge -->
+        <div class="azure-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13.05 4.24l-3.3 5.76-4.5 7.82h5.5l2.3-4.04zM13.8 4.24l2.7 4.7 4.25 7.4h-5.25l-1.7-2.96zM1.75 17.82h5.5l2.25-3.92-2.75-4.8z"/>
+          </svg>
+          <span>Cloud Resume Challenge · Microsoft Azure</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       INTERACTIVE MODAL DIALOG (DETAIL VIEW)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-container" id="modalContainer">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close dialog">&times;</button>
+      <div class="modal-header">
+        <span class="modal-subtitle" id="modalSubtitle">Details</span>
+        <h3 class="modal-title" id="modalTitle">Information</h3>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Injected dynamically via script.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Core JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
