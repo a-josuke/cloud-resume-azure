@@ -61,9 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
       content: `
         <h4 style="color: #fff; font-size: 18px; margin-bottom: 14px;">Work Experience</h4>
         <div class="modal-timeline-item">
-          <div class="timeline-role">Full Stack Developer</div>
-          <div class="timeline-company">Azigau Environmental Engineering Limited</div>
-          <div class="timeline-date">Jan 15, 2025 – July 18, 2026</div>
+          <div class="timeline-role">Full Stack Web Developer (Remote)</div>
+          <div class="timeline-company">Azigau Environmental Engineering Ltd.</div>
+          <div class="timeline-date">Jan 2025 – June 2026</div>
           <ul class="timeline-bullets">
             <li>Created secure web applications for cross-government collaboration on high-level forestry logging policies.</li>
             <li>Architected and built an ERMS (Employee Relationship Management System) dashboard to track essential KPIs for employee engagement and retention for over 50+ staff members.</li>
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="modal-timeline-item">
           <div class="timeline-role">B.Sc (HONS) Computing (Software Engineering)</div>
           <div class="timeline-company">University of Northampton</div>
-          <div class="timeline-date">Graduated 2024</div>
+          <div class="timeline-date">Graduated 2023 / 2024</div>
           <p style="color: #9f9f9f; font-size: 13.5px; margin-top: 6px;">Focused on software engineering principles, distributed systems, database design, and cloud methodologies.</p>
         </div>
         <div class="modal-timeline-item">
@@ -83,6 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="timeline-company">Microsoft Certified</div>
           <div class="timeline-date">In Progress / Certification Track</div>
           <p style="color: #9f9f9f; font-size: 13.5px; margin-top: 6px;">Core Azure services, cloud concepts, security, privacy, compliance, and Azure pricing/support.</p>
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+          <a href="cv.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 9999px; color: #fff; font-size: 13.5px; font-weight: 500; transition: all 0.2s ease;">📄 View / Download Full CV (PDF) ↗</a>
         </div>
       `
     },
