@@ -288,3 +288,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+
+const API_URL = 'https://func-crc-ad-c4b7bahhchd4aacb.centralindia-01.azurewebsites.net/api/visitorCount';
+
+async function updateCounter() {
+  const el = document.getElementById('visitor-count');
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const { count } = await res.json();
+    el.textContent = count.toLocaleString();
+  } catch (err) {
+    console.error('Visitor counter failed:', err);
+    el.textContent = '-';
+  }
+}
+document.addEventListener('DOMContentLoaded', updateCounter);
