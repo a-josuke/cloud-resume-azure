@@ -3,6 +3,7 @@
 // Reads the "visitors" item from Cosmos DB, adds 1, saves it, returns the new count.
 
 const { app, input, output } = require('@azure/functions');
+const { nextCount } = require('../counter');
 
 // Input binding: Azure reads this item for us before our code runs.
 const counterIn = input.cosmosDB({
@@ -27,7 +28,7 @@ app.http('visitorCount', {
   extraOutputs: [counterOut],
   handler: async (request, context) => {
     const item = context.extraInputs.get(counterIn);
-    const count = (item?.count ?? 0) + 1;
+    const count = nextCount(item);
 
     context.extraOutputs.set(counterOut, { id: 'visitors', count });
     context.log(`Visitor count is now ${count}`);
