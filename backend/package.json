@@ -7,8 +7,9 @@
     "test": "node --test"
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0"
+    "@azure/cosmos": "^4.10.1",
+    "@azure/functions": "^4.0.0",
+    "@azure/identity": "^4.13.3"
   },
-  "devDependencies": {},
   "main": "src/{index.js,functions/*.js}"
 }
