@@ -566,8 +566,8 @@ async function updateCounter() {
   try {
     const res = await fetch(API_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const { count } = await res.json();
-    el.textContent = count.toLocaleString();
+    const { count, uniqueCount } = await res.json();
+    el.textContent = `${count.toLocaleString()} views · ${(uniqueCount ?? 0).toLocaleString()} unique visitors`;
   } catch (err) {
     console.error('Visitor counter failed:', err);
     el.textContent = '-';
