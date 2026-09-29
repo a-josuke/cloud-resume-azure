@@ -1,6 +1,6 @@
 // infra/main.bicep
 // Cloud Resume Challenge infrastructure, defined as code.
-// Step 3: website storage + Cosmos DB + the Function App stack.
+// Step 4: keyless Cosmos DB access (managed identity + data role, keys disabled).
 
 @description('Azure region for all resources. Defaults to the resource group region.')
 param location string = resourceGroup().location
@@ -12,6 +12,12 @@ param suffix string = 'ad'
 param allowedOrigins array = [
   'https://cloud.ankit-dahal.com.np'
 ]
+
+@description('Optional: your own Entra ID object ID, so you can use the data locally and in Data Explorer. Leave empty to skip.')
+param developerPrincipalId string = ''
+
+// Built-in role "Cosmos DB Built-in Data Contributor" (read + write items). Same ID in every account.
+var cosmosDataContributorRoleId = '00000000-0000-0000-0000-000000000002'
 
 // ---------- Website storage ----------
 // Storage account names: 3-24 chars, lowercase letters and numbers only, globally unique.
@@ -54,6 +60,7 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2024-05-15' = {
       }
     ]
     minimalTlsVersion: 'Tls12'
+    disableLocalAuth: true          // keys are refused; only Entra ID identities can read or write data
   }
 }
 
@@ -141,6 +148,9 @@ resource funcApp 'Microsoft.Web/sites@2023-12-01' = {
   name: 'func-crc-${suffix}-iac'
   location: location
   kind: 'functionapp'
+  identity: {
+    type: 'SystemAssigned'          // the app's own "badge" in Entra ID; deleted together with the app
+  }
   properties: {
     serverFarmId: plan.id
     httpsOnly: true
@@ -180,12 +190,37 @@ resource funcApp 'Microsoft.Web/sites@2023-12-01' = {
           value: appInsights.properties.ConnectionString
         }
         {
-          // Same name your code's bindings use. Value fetched from Cosmos at deploy time.
-          name: 'CosmosDbConnection'
-          value: cosmos.listConnectionStrings().connectionStrings[0].connectionString
+          // "CosmosDbConnection" + "__accountEndpoint" tells the binding to sign in with the
+          // app's managed identity. Only the address is stored here, no key.
+          name: 'CosmosDbConnection__accountEndpoint'
+          value: cosmos.properties.documentEndpoint
         }
       ]
     }
+  }
+}
+
+// ---------- Data access (RBAC) ----------
+// Gives the Function App's identity the data role on this Cosmos account.
+// guid() makes a stable name, so redeploying updates this assignment instead of duplicating it.
+resource funcCosmosAccess 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments@2024-05-15' = {
+  parent: cosmos
+  name: guid(cosmos.id, funcApp.id, cosmosDataContributorRoleId)
+  properties: {
+    roleDefinitionId: '${cosmos.id}/sqlRoleDefinitions/${cosmosDataContributorRoleId}'
+    principalId: funcApp.identity.principalId
+    scope: cosmos.id
+  }
+}
+
+// Same role for you (the developer), only if you pass your object ID.
+resource devCosmosAccess 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments@2024-05-15' = if (!empty(developerPrincipalId)) {
+  parent: cosmos
+  name: guid(cosmos.id, developerPrincipalId, cosmosDataContributorRoleId)
+  properties: {
+    roleDefinitionId: '${cosmos.id}/sqlRoleDefinitions/${cosmosDataContributorRoleId}'
+    principalId: developerPrincipalId
+    scope: cosmos.id
   }
 }
 
