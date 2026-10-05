@@ -559,7 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-const API_URL = 'https://func-crc-ad-c4b7bahhchd4aacb.centralindia-01.azurewebsites.net/api/visitorCount';
+const API_URL = window.CRC_CONFIG.apiUrl;
 
 async function updateCounter() {
   const el = document.getElementById('visitor-count');

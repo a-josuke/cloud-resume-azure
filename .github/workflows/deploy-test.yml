@@ -1,0 +1,138 @@
+# .github/workflows/deploy-test.yml
+# Builds the whole app from code into a fresh "test" environment and smoke-tests it.
+name: Deploy test environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      cleanup:
+        description: 'Delete everything in the test environment when finished'
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+    paths:
+      - 'infra/**'
+      - 'scripts/**'
+      - '.github/workflows/deploy-test.yml'
+
+# Needed for passwordless login to Azure (OIDC). Everything else is read-only.
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  RESOURCE_GROUP: rg-crc-test
+
+jobs:
+  # ---------- 1. Build: cheap checks first, before touching Azure ----------
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Unit tests
+        working-directory: backend
+        run: |
+          npm ci
+          npm test
+
+      - name: Check the Bicep compiles
+        run: az bicep build --file infra/main.bicep --stdout > /dev/null
+
+  # ---------- 2. Deploy: infrastructure, API code, website ----------
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      HASH_SALT: ${{ secrets.TEST_HASH_SALT }}
+      ALERT_EMAIL: ${{ secrets.ALERT_EMAIL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Preview changes (what-if)
+        run: az deployment group what-if -g "$RESOURCE_GROUP" -p infra/test.bicepparam
+
+      - name: Deploy infrastructure
+        id: infra
+        run: |
+          az deployment group create -g "$RESOURCE_GROUP" -n main -p infra/test.bicepparam --only-show-errors -o none
+          out() { az deployment group show -g "$RESOURCE_GROUP" -n main --query "properties.outputs.$1.value" -o tsv; }
+          echo "function_app=$(out functionAppName)" >> "$GITHUB_OUTPUT"
+          echo "api_url=$(out apiUrl)"               >> "$GITHUB_OUTPUT"
+          echo "swa_name=$(out swaName)"             >> "$GITHUB_OUTPUT"
+          echo "site_url=$(out siteUrl)"             >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install API dependencies (production only)
+        working-directory: backend
+        run: npm ci --omit=dev
+
+      - name: Deploy API code
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ steps.infra.outputs.function_app }}
+          package: backend
+
+      # The site is built per environment: config.js tells it which API to call.
+      - name: Build website
+        run: |
+          mkdir site
+          cp -r frontend/. site/
+          echo "window.CRC_CONFIG = { apiUrl: '${{ steps.infra.outputs.api_url }}' };" > site/config.js
+
+      - name: Get website deployment token
+        id: swa
+        run: |
+          TOKEN=$(az staticwebapp secrets list -n "${{ steps.infra.outputs.swa_name }}" -g "$RESOURCE_GROUP" --query properties.apiKey -o tsv)
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy website
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.swa.outputs.token }}
+          action: upload
+          app_location: site
+          skip_app_build: true
+          skip_api_build: true
+
+      - name: Smoke test
+        run: bash scripts/smoke-test.sh "${{ steps.infra.outputs.api_url }}" "${{ steps.infra.outputs.site_url }}"
+
+      - name: Show the test site
+        run: echo "Test site is at ${{ steps.infra.outputs.site_url }}" >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------- 3. Clean up (only when you tick the box) ----------
+  cleanup:
+    if: ${{ always() && inputs.cleanup }}
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # A "Complete" deployment of an empty template deletes everything in the group
+      # but keeps the group itself, so the pipeline's permissions on it survive.
+      - name: Empty the resource group
+        run: |
+          echo '{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[]}' > empty.json
+          az deployment group create -g "$RESOURCE_GROUP" -n cleanup -f empty.json --mode Complete -o none
