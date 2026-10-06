@@ -1,0 +1,13 @@
+# Used automatically by `docker build -f container/Dockerfile ...` (BuildKit reads <Dockerfile>.dockerignore).
+# Keeps the build context small and keeps secrets out of the image. Paths are relative to the repo root.
+**/node_modules
+.git
+.github
+frontend
+infra
+docs
+scripts
+**/*.md
+**/test
+**/local.settings.json
+**/.env

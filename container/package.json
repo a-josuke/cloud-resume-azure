@@ -1,0 +1,17 @@
+{
+  "name": "crc-api-container",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The visitor-counter API as a container (Azure Container Apps).",
+  "main": "src/server.js",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@azure/cosmos": "^4.0.0",
+    "@azure/data-tables": "^13.2.2",
+    "@azure/identity": "^4.4.0"
+  }
+}

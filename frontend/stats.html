@@ -3,38 +3,104 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Visitor stats</title>
+  <title>Visitor Stats | Ankit Dahal</title>
+  <meta name="description" content="Live, privacy-friendly visitor analytics for Ankit Dahal's Cloud Resume on Microsoft Azure.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="stylesheet" href="styles.css?v=3">
   <link rel="stylesheet" href="stats.css">
 </head>
 <body>
-  <main>
-    <p><a href="/">&larr; Back to the resume</a></p>
-    <h1>Visitor stats</h1>
-    <p class="muted" id="status">Loading&hellip;</p>
 
-    <section class="tiles" id="tiles" hidden></section>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">
+        Ankit<span>.</span>
+        <span class="logo-tag">Stats</span>
+      </a>
 
-    <section>
-      <h2>Daily visits (last 30 days)</h2>
-      <div id="chart-days"></div>
-      <p class="legend"><span class="key humans"></span> human views <span class="key uniques"></span> unique visitors <span class="key bots"></span> bot views</p>
-    </section>
+      <nav class="main-nav" id="mainNav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/#about" class="nav-link">About</a>
+        <a href="/#works" class="nav-link">Works</a>
+        <a href="/#contact" class="nav-link">Contact</a>
+        <a href="stats.html" class="nav-link active">Visitor stats</a>
+      </nav>
 
-    <section>
-      <h2>When people visit (hour of day, UTC)</h2>
-      <div id="chart-hours"></div>
-    </section>
-
-    <div class="grid">
-      <section><h2>Where from</h2><div id="list-referrer"></div></section>
-      <section><h2>Browser</h2><div id="list-browser"></div></section>
-      <section><h2>System</h2><div id="list-os"></div></section>
-      <section><h2>Device</h2><div id="list-device"></div></section>
+      <div class="header-actions">
+        <a class="btn-talk" href="/">&larr; Back to resume</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
     </div>
+  </header>
 
-    <p class="muted">No IP addresses or personal data are stored: each visit is saved as a browser type, a system type, a referring website name and the hour. Raw rows are deleted after 90 days.</p>
+  <main class="bento-section">
+    <div class="container">
+      <div class="bento-grid">
+
+        <article class="bento-card stats-hero">
+          <span class="card-subtitle">Cloud Resume Challenge · Live analytics</span>
+          <h1 class="stats-title">Visitor <span class="cta-accent">stats.</span></h1>
+          <p class="muted" id="status">Loading&hellip;</p>
+        </article>
+
+        <section class="tiles" id="tiles" hidden></section>
+
+        <section class="bento-card panel">
+          <span class="card-subtitle">Last 30 days</span>
+          <h2 class="card-title">Daily visits</h2>
+          <div id="chart-days"></div>
+          <p class="legend"><span class="key humans"></span> human views <span class="key uniques"></span> unique visitors <span class="key bots"></span> bot views</p>
+        </section>
+
+        <section class="bento-card panel">
+          <span class="card-subtitle">UTC</span>
+          <h2 class="card-title">When people visit (hour of day)</h2>
+          <div id="chart-hours"></div>
+        </section>
+
+        <div class="grid">
+          <section class="bento-card panel"><span class="card-subtitle">Source</span><h2 class="card-title">Where from</h2><div id="list-referrer"></div></section>
+          <section class="bento-card panel"><span class="card-subtitle">Client</span><h2 class="card-title">Browser</h2><div id="list-browser"></div></section>
+          <section class="bento-card panel"><span class="card-subtitle">Platform</span><h2 class="card-title">System</h2><div id="list-os"></div></section>
+          <section class="bento-card panel"><span class="card-subtitle">Form factor</span><h2 class="card-title">Device</h2><div id="list-device"></div></section>
+        </div>
+
+        <p class="muted privacy-note">No IP addresses or personal data are stored: each visit is saved as a browser type, a system type, a referring website name and the hour. Raw rows are deleted after 90 days.</p>
+
+      </div>
+    </div>
   </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <a href="/" class="footer-logo">Ankit<span>.</span></a>
+      <nav class="footer-nav">
+        <a href="/" class="footer-link">Home</a>
+        <a href="/#about" class="footer-link">About</a>
+        <a href="/#works" class="footer-link">Works</a>
+        <a href="/#contact" class="footer-link">Contact</a>
+        <a href="stats.html" class="footer-link">Visitor stats</a>
+      </nav>
+      <div class="footer-bottom">
+        <p class="copyright">© All rights reserved by <span>Ankit Dahal</span> · Built on Microsoft Azure</p>
+        <div class="azure-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13.05 4.24l-3.3 5.76-4.5 7.82h5.5l2.3-4.04zM13.8 4.24l2.7 4.7 4.25 7.4h-5.25l-1.7-2.96zM1.75 17.82h5.5l2.25-3.92-2.75-4.8z"/>
+          </svg>
+          <span>Cloud Resume Challenge · Microsoft Azure</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
   <script src="config.js"></script>
   <script src="stats.js"></script>
+  <script src="nav.js"></script>
 </body>
 </html>

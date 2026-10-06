@@ -1,0 +1,111 @@
+# .github/workflows/deploy-container.yml
+# Builds the API into a container image, pushes it to the registry and runs it on Azure Container Apps
+# inside the existing "test" environment, then smoke-tests it.
+name: Deploy container API
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'container/**'
+      - 'infra/container.bicep'
+      - 'infra/container.bicepparam'
+      - 'backend/src/visitor.js'
+      - 'backend/src/events.js'
+      - 'backend/src/tables.js'
+      - 'scripts/smoke-test-container.sh'
+      - '.github/workflows/deploy-container.yml'
+
+# Passwordless login to Azure (OIDC). Everything else is read-only.
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  RESOURCE_GROUP: rg-crc-test
+  SWA_NAME: swa-crc-ad-test   # the test website (its address is the origin the API must allow)
+
+jobs:
+  # ---------- 1. Test: cheap checks before touching Azure ----------
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: container/package-lock.json
+
+      - name: Unit tests
+        working-directory: container
+        run: |
+          npm ci
+          npm test
+
+      - name: Check the Bicep compiles
+        run: az bicep build --file infra/container.bicep --stdout > /dev/null
+
+  # ---------- 2. Deploy: infrastructure, image, app ----------
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      HASH_SALT: ${{ secrets.TEST_HASH_SALT }}
+      PIPELINE_PRINCIPAL_ID: ${{ secrets.AZURE_PRINCIPAL_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Phase 1: registry, identity, permissions, environment. No app yet (it needs an image first).
+      - name: Deploy infrastructure (phase 1)
+        id: infra
+        run: |
+          az deployment group create -g "$RESOURCE_GROUP" -n container-infra -p infra/container.bicepparam --only-show-errors -o none
+          out() { az deployment group show -g "$RESOURCE_GROUP" -n container-infra --query "properties.outputs.$1.value" -o tsv; }
+          echo "acr_name=$(out acrName)"        >> "$GITHUB_OUTPUT"
+          echo "login_server=$(out acrLoginServer)" >> "$GITHUB_OUTPUT"
+
+      # Build the image from the repo root (the Dockerfile reuses backend/src files).
+      # The tag is the commit ID: every image is traceable to the exact code, and tags never change.
+      - name: Build the image
+        run: |
+          docker build -f container/Dockerfile -t "${{ steps.infra.outputs.login_server }}/crc-api:${{ github.sha }}" .
+
+      # A permission that was granted seconds ago can take a minute to spread, so retry a few times.
+      - name: Push the image to the registry
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if az acr login --name "${{ steps.infra.outputs.acr_name }}" && docker push "${{ steps.infra.outputs.login_server }}/crc-api:${{ github.sha }}"; then
+              exit 0
+            fi
+            echo "Push failed (attempt $attempt). Waiting for permissions to spread..."
+            sleep 30
+          done
+          exit 1
+
+      # Phase 2: the container app itself, running the image we just pushed.
+      - name: Deploy the container app (phase 2)
+        id: app
+        env:
+          DEPLOY_APP: 'true'
+          IMAGE: ${{ steps.infra.outputs.login_server }}/crc-api:${{ github.sha }}
+        run: |
+          az deployment group create -g "$RESOURCE_GROUP" -n container-app -p infra/container.bicepparam --only-show-errors -o none
+          echo "app_url=$(az deployment group show -g "$RESOURCE_GROUP" -n container-app --query properties.outputs.appUrl.value -o tsv)" >> "$GITHUB_OUTPUT"
+          echo "site_host=$(az staticwebapp show -n "$SWA_NAME" -g "$RESOURCE_GROUP" --query defaultHostname -o tsv)" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke test
+        run: bash scripts/smoke-test-container.sh "${{ steps.app.outputs.app_url }}" "https://${{ steps.app.outputs.site_host }}"
+
+      - name: Show the result
+        run: |
+          echo "Container API: ${{ steps.app.outputs.app_url }}/api/stats?days=3" >> "$GITHUB_STEP_SUMMARY"
+          echo "Image: ${{ steps.infra.outputs.login_server }}/crc-api:${{ github.sha }}" >> "$GITHUB_STEP_SUMMARY"
