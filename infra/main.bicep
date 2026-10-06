@@ -37,6 +37,7 @@ param developerPrincipalId string = ''
 // ---------- Fixed IDs of built-in roles (same in every tenant) ----------
 var cosmosDataContributorRoleId = '00000000-0000-0000-0000-000000000002' // Cosmos DB data-plane role
 var storageBlobDataOwnerRoleId = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'   // Azure RBAC role
+var storageTableDataContributorRoleId = '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3' // Azure RBAC role
 var ownerRoleId = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635'                  // Azure RBAC role
 
 // ---------- Frontend: Static Web App ----------
@@ -165,6 +166,24 @@ resource funcStorage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
 }
 
+// ---------- Analytics data: Table Storage ----------
+// A separate account from the Functions runtime storage: different job, different permissions.
+// The tables (visitevents, dailystats) are created by the API itself on first use.
+resource dataStorage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+  name: 'stdata${suffix}${envName}01'
+  location: location
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+  properties: {
+    minimumTlsVersion: 'TLS1_2'
+    supportsHttpsTrafficOnly: true
+    allowBlobPublicAccess: false
+    allowSharedKeyAccess: false // keys are off: only identities with a role can get in
+  }
+}
+
 // Y1 / Dynamic = the Consumption plan (Windows), same as the live function app.
 resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: 'asp-crc-${suffix}-${envName}'
@@ -189,6 +208,7 @@ resource funcApp 'Microsoft.Web/sites@2023-12-01' = {
     siteConfig: {
       minTlsVersion: '1.2'
       ftpsState: 'Disabled'
+      functionAppScaleLimit: 2 // Wall of Fire lite: never more than 2 servers
       cors: {
         // This environment's own site + anything extra (custom domain in prod).
         allowedOrigins: concat(['https://${swa.properties.defaultHostname}'], extraAllowedOrigins)
@@ -224,6 +244,11 @@ resource funcApp 'Microsoft.Web/sites@2023-12-01' = {
           value: cosmos.properties.documentEndpoint
         }
         {
+          // Where the analytics tables live. The function signs in with its identity (no key).
+          name: 'TABLES_ACCOUNT_URL'
+          value: 'https://${dataStorage.name}.table.${environment().suffixes.storage}'
+        }
+        {
           name: 'VISITOR_HASH_SALT'
           value: hashSalt
         }
@@ -239,6 +264,17 @@ resource funcStorageAccess 'Microsoft.Authorization/roleAssignments@2022-04-01' 
   name: guid(funcStorage.id, funcApp.id, storageBlobDataOwnerRoleId)
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', storageBlobDataOwnerRoleId)
+    principalId: funcApp.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
+}
+
+// Function identity -> analytics tables (Azure RBAC).
+resource dataTableAccess 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: dataStorage
+  name: guid(dataStorage.id, funcApp.id, storageTableDataContributorRoleId)
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', storageTableDataContributorRoleId)
     principalId: funcApp.identity.principalId
     principalType: 'ServicePrincipal'
   }

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "2334609001799191520"
+      "templateHash": "13421840171611315333"
     }
   },
   "parameters": {
@@ -75,6 +75,7 @@
   "variables": {
     "cosmosDataContributorRoleId": "00000000-0000-0000-0000-000000000002",
     "storageBlobDataOwnerRoleId": "b7e6dc6d-f1e8-4753-8033-0f276bb0955b",
+    "storageTableDataContributorRoleId": "0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3",
     "ownerRoleId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
     "alertRules": [
       {
@@ -239,6 +240,22 @@
       }
     },
     {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-05-01",
+      "name": "[format('stdata{0}{1}01', parameters('suffix'), parameters('envName'))]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true,
+        "allowBlobPublicAccess": false,
+        "allowSharedKeyAccess": false
+      }
+    },
+    {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2023-12-01",
       "name": "[format('asp-crc-{0}-{1}', parameters('suffix'), parameters('envName'))]",
@@ -264,6 +281,7 @@
         "siteConfig": {
           "minTlsVersion": "1.2",
           "ftpsState": "Disabled",
+          "functionAppScaleLimit": 2,
           "cors": {
             "allowedOrigins": "[concat(createArray(format('https://{0}', reference(resourceId('Microsoft.Web/staticSites', format('swa-crc-{0}-{1}', parameters('suffix'), parameters('envName'))), '2023-12-01').defaultHostname)), parameters('extraAllowedOrigins'))]"
           },
@@ -297,6 +315,10 @@
               "value": "[reference(resourceId('Microsoft.DocumentDB/databaseAccounts', format('cosmos-crc-{0}-{1}', parameters('suffix'), parameters('envName'))), '2024-05-15').documentEndpoint]"
             },
             {
+              "name": "TABLES_ACCOUNT_URL",
+              "value": "[format('https://{0}.table.{1}', format('stdata{0}{1}01', parameters('suffix'), parameters('envName')), environment().suffixes.storage)]"
+            },
+            {
               "name": "VISITOR_HASH_SALT",
               "value": "[parameters('hashSalt')]"
             }
@@ -306,6 +328,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Insights/components', format('appi-crc-{0}-{1}', parameters('suffix'), parameters('envName')))]",
         "[resourceId('Microsoft.DocumentDB/databaseAccounts', format('cosmos-crc-{0}-{1}', parameters('suffix'), parameters('envName')))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', format('stdata{0}{1}01', parameters('suffix'), parameters('envName')))]",
         "[resourceId('Microsoft.Storage/storageAccounts', format('stfunc{0}{1}01', parameters('suffix'), parameters('envName')))]",
         "[resourceId('Microsoft.Web/serverfarms', format('asp-crc-{0}-{1}', parameters('suffix'), parameters('envName')))]",
         "[resourceId('Microsoft.Web/staticSites', format('swa-crc-{0}-{1}', parameters('suffix'), parameters('envName')))]"
@@ -324,6 +347,21 @@
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites', format('func-crc-{0}-{1}', parameters('suffix'), parameters('envName')))]",
         "[resourceId('Microsoft.Storage/storageAccounts', format('stfunc{0}{1}01', parameters('suffix'), parameters('envName')))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.Storage/storageAccounts', format('stdata{0}{1}01', parameters('suffix'), parameters('envName')))]",
+      "name": "[guid(resourceId('Microsoft.Storage/storageAccounts', format('stdata{0}{1}01', parameters('suffix'), parameters('envName'))), resourceId('Microsoft.Web/sites', format('func-crc-{0}-{1}', parameters('suffix'), parameters('envName'))), variables('storageTableDataContributorRoleId'))]",
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('storageTableDataContributorRoleId'))]",
+        "principalId": "[reference(resourceId('Microsoft.Web/sites', format('func-crc-{0}-{1}', parameters('suffix'), parameters('envName'))), '2023-12-01', 'full').identity.principalId]",
+        "principalType": "ServicePrincipal"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', format('stdata{0}{1}01', parameters('suffix'), parameters('envName')))]",
+        "[resourceId('Microsoft.Web/sites', format('func-crc-{0}-{1}', parameters('suffix'), parameters('envName')))]"
       ]
     },
     {
