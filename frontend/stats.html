@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visitor stats</title>
+  <link rel="stylesheet" href="stats.css">
+</head>
+<body>
+  <main>
+    <p><a href="/">&larr; Back to the resume</a></p>
+    <h1>Visitor stats</h1>
+    <p class="muted" id="status">Loading&hellip;</p>
+
+    <section class="tiles" id="tiles" hidden></section>
+
+    <section>
+      <h2>Daily visits (last 30 days)</h2>
+      <div id="chart-days"></div>
+      <p class="legend"><span class="key humans"></span> human views <span class="key uniques"></span> unique visitors <span class="key bots"></span> bot views</p>
+    </section>
+
+    <section>
+      <h2>When people visit (hour of day, UTC)</h2>
+      <div id="chart-hours"></div>
+    </section>
+
+    <div class="grid">
+      <section><h2>Where from</h2><div id="list-referrer"></div></section>
+      <section><h2>Browser</h2><div id="list-browser"></div></section>
+      <section><h2>System</h2><div id="list-os"></div></section>
+      <section><h2>Device</h2><div id="list-device"></div></section>
+    </div>
+
+    <p class="muted">No IP addresses or personal data are stored: each visit is saved as a browser type, a system type, a referring website name and the hour. Raw rows are deleted after 90 days.</p>
+  </main>
+  <script src="config.js"></script>
+  <script src="stats.js"></script>
+</body>
+</html>

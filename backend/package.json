@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@azure/cosmos": "^4.10.1",
+    "@azure/data-tables": "^13.3.2",
     "@azure/functions": "^4.0.0",
     "@azure/identity": "^4.13.3"
   },

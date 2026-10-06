@@ -561,10 +561,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const API_URL = window.CRC_CONFIG.apiUrl;
 
+// Which website sent this visitor here? Only the host name is sent (e.g. "www.linkedin.com").
+function referrerHost() {
+  try {
+    const host = new URL(document.referrer).hostname;
+    return host === location.hostname ? '' : host;
+  } catch {
+    return ''; // no referrer = typed the address or used a bookmark
+  }
+}
+
 async function updateCounter() {
   const el = document.getElementById('visitor-count');
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(`${API_URL}?ref=${encodeURIComponent(referrerHost())}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const { count, uniqueCount } = await res.json();
     el.textContent = `${count.toLocaleString()} views · ${(uniqueCount ?? 0).toLocaleString()} unique visitors`;
