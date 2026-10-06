@@ -1,4 +1,11 @@
 {
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/assets/*", "/*.{png,jpg,jpeg,svg,ico,pdf,css,js,json,txt,webp}"]
+  },
+  "routes": [
+    { "route": "/stats.html", "redirect": "/stats", "statusCode": 301 }
+  ],
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
