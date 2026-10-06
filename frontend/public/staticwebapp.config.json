@@ -1,12 +1,12 @@
 {
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/assets/*", "/*.{png,jpg,jpeg,svg,ico,pdf,css,js,json,txt,webp}"]
+  },
+  "routes": [
+    { "route": "/stats.html", "redirect": "/stats", "statusCode": 301 }
+  ],
   "globalHeaders": {
-    "navigationFallback": {
-      "rewrite": "/index.html",
-      "exclude": ["/assets/*", "/*.{png,jpg,jpeg,svg,ico,pdf,css,js,json,txt,webp}"]
-    },
-    "routes": [
-      { "route": "/stats.html", "redirect": "/stats", "statusCode": 301 }
-    ],
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
     "Referrer-Policy": "strict-origin-when-cross-origin",

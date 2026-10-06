@@ -43,7 +43,6 @@ jobs:
           app_location: "frontend/dist" # Already-built site, produced by the npm step above
           api_location: ""
           skip_app_build: true
-          skip_api_build: true
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
