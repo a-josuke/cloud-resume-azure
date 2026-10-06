@@ -151,21 +151,38 @@
         return new Date(Date.UTC(y, m - 1, d + k + 1)).toISOString().slice(5, 10);
       });
       const byHour = Array.from({ length: 24 }, (_, i) => sum(days.map((d) => d.byHour[i] ?? 0)));
-      const drawCharts = () => {
-        barChart(document.getElementById('chart-days'), days.map((d) => d.day.slice(5)), [
-          { cls: 's-humans', name: 'Human views', values: days.map((d) => d.humanViews) },
-          { cls: 's-uniques', name: 'Unique visitors', values: days.map((d) => d.uniqueVisitors) },
-          { cls: 's-bots', name: 'Bot views', values: days.map((d) => d.botViews) },
-        ], {
+      const enabled = { humans: true, uniques: true, bots: true };
+      const allSeries = [
+        { key: 'humans', cls: 's-humans', name: 'Human views', values: days.map((d) => d.humanViews) },
+        { key: 'uniques', cls: 's-uniques', name: 'Unique visitors', values: days.map((d) => d.uniqueVisitors) },
+        { key: 'bots', cls: 's-bots', name: 'Bot views', values: days.map((d) => d.botViews) },
+      ];
+      const drawDays = (keepScroll) => {
+        const el = document.getElementById('chart-days');
+        const prev = keepScroll && el.querySelector('.chart-scroll');
+        const left = prev ? prev.scrollLeft : null;
+        barChart(el, days.map((d) => d.day.slice(5)), allSeries.filter((x) => enabled[x.key]), {
           visible: 7, pad: FUTURE, futureLabels, focus: todayIdx, focusSlot: 2,
           title: (i) => prettyDay(days[i].day) + (i === todayIdx ? ' (today)' : ''),
         });
+        if (left !== null) el.querySelector('.chart-scroll').scrollLeft = left;
+      };
+      const drawCharts = () => {
+        drawDays(false);
         barChart(document.getElementById('chart-hours'), byHour.map((_, i) => String(i).padStart(2, '0')),
           [{ cls: 's-humans', name: 'Human views', values: byHour }], {
             labelEvery: 2,
             title: (i) => `${String(i).padStart(2, '0')}:00 – ${String(i).padStart(2, '0')}:59 UTC`,
           });
       };
+      document.querySelectorAll('#legend-days .legend-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const k = btn.dataset.series;
+          enabled[k] = !enabled[k];
+          btn.setAttribute('aria-pressed', String(enabled[k]));
+          drawDays(true);
+        });
+      });
       drawCharts();
       let resizeTimer;
       let lastW = window.innerWidth;

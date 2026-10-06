@@ -574,6 +574,7 @@ button {
 
 /* LinkedIn post art in Blog Card */
 .blog-card { text-decoration: none; color: inherit; }
+.blog-card .card-meta { padding-right: 52px; }
 
 .post-art {
   height: 100px;
