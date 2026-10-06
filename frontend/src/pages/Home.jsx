@@ -1,17 +1,50 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '../components/Header.jsx'
 import Footer from '../components/Footer.jsx'
 import CardArrow from '../components/CardArrow.jsx'
+import Modal from '../components/Modal.jsx'
+import Lightbox from '../components/Lightbox.jsx'
+import useVisitorCount from '../hooks/useVisitorCount.js'
 
 export default function Home() {
-  // Which modal is open: null, 'about', 'projects', 'contact', 'services' or 'credentials'.
-  // The modal itself is built in Part B.
-  const [modal, setModal] = useState(null)
-  const open = (key) => () => setModal(key)
+  const [modal, setModal] = useState(null) // which popup's content to show
+  const [isOpen, setIsOpen] = useState(false) // is the popup visible
+  const [openId, setOpenId] = useState(0) // changes on every open, so the popup content starts fresh
+  const [lightbox, setLightbox] = useState({ open: false, src: '', caption: '' })
+  const visitors = useVisitorCount()
+
+  const openModal = (key) => {
+    setModal(key)
+    setOpenId((n) => n + 1)
+    setIsOpen(true)
+  }
+  const closeModal = () => setIsOpen(false)
+  const openLightbox = (src, caption) => setLightbox({ open: true, src, caption })
+  const closeLightbox = () => setLightbox((lb) => ({ ...lb, open: false }))
+  const open = (key) => () => openModal(key)
+
+  // Lock page scrolling while a popup is open (as your old script did).
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
+  // Escape closes the lightbox first, otherwise the popup.
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return
+      if (lightbox.open) setLightbox((lb) => ({ ...lb, open: false }))
+      else if (isOpen) setIsOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [isOpen, lightbox.open])
 
   return (
     <>
-      <Header variant="home" onOpen={setModal} />
+      <Header variant="home" onOpen={openModal} />
 
       <main className="bento-section" id="home">
         <div className="container">
@@ -201,9 +234,10 @@ export default function Home() {
         </div>
       </main>
 
-      <Footer onOpen={setModal} />
+          <Footer onOpen={openModal} visitors={visitors} />
 
-      {/* Part B adds <Modal /> and the lightbox here, driven by the "modal" state. */}
+      <Modal modalKey={modal} isOpen={isOpen} openId={openId} onClose={closeModal} openLightbox={openLightbox} />
+      <Lightbox open={lightbox.open} src={lightbox.src} caption={lightbox.caption} onClose={closeLightbox} />
     </>
   )
 }
